@@ -1,0 +1,40 @@
+<tool id="mzml2isa" name="mzml2isa" version="0.1.0">
+    <description>Parser to get meta information from mzML files and create an ISA-Tab structure</description>
+    <requirements>
+        <requirement type="package" version="0.4.19">mzml2isa</requirement>
+    </requirements>
+    <stdio>
+        <exit_code range="1:" />
+    </stdio>
+    <command><![CDATA[
+    mzml2isa -i $path_mzml_files -o $html_file.extra_files_path -s $name_of_study && echo '<a href="test/a_${name_of_study}_metabolite_profiling_mass_spectrometry.txt">a_${name_of_study}_metabolite_profiling_mass_spectrometry.txt</a><br/><a href="test/i_Investigation.txt">i_Investigation.txt</a><br/><a href="test/s_${name_of_study}.txt">s_test.txt</a><br/>'>$html_file]]> </command>
+    <inputs>
+        <param name="name_of_study" type="text" label="Name study" help="" />
+        <param name="path_mzml_files" type="text" label="Path mzML files" help="testing" />
+        <!--<param name="name" type="text" label="Name" help="" /> -->
+        <!--<param name="email" type="text" label="Email" help="" /> -->
+    </inputs>
+    <outputs>
+        <data format="html" name="html_file" label="" />
+	<!--<data format="txt" hidden="True" name="json_file" label="" /> -->
+    </outputs>
+    <tests>
+        <test>
+            <param name="name_of_study" value="test" />
+            <param name="path_mzml_files" value="metabolomics_study/" />
+            <!--<param name="name" type="text" label="Name" help="" />-->
+            <!--<param name="email" type="text" label="Email" help="" />-->
+            <output name="output" value="metabolomics_study/test/index.html" />
+        </test>
+    </tests>
+    <help><![CDATA[
+**Overview**
+
+.. image:: $PATH_TO_IMAGES/mzml2isa.png
+    ]]></help>
+    <citations>
+        <citation type="doi">10.1002/0471250953.bi1413s53</citation>
+        <citation type="doi">10.1007/s11306-015-0879-3</citation>
+        <citation type="doi">10.1038/ng.1054</citation>
+    </citations>
+</tool>
