@@ -3,7 +3,7 @@
     <package name="mzml2isa" version="0.4.19">
         <install version="1.0">
             <actions>
-                <action type="download_by_url">https://github.com/althonos/mzml2isa/archive/0.4.19.tar.gz</action>
+                <action type="download_by_url">https://github.com/althonos/mzml2isa/archive/ziptar.zip</action>
                 <action type="make_directory">$INSTALL_DIR/lib/python</action>
                 <action type="shell_command"> export PYTHONPATH=$PYTHONPATH:$INSTALL_DIR/lib/python && python setup.py install --install-lib $INSTALL_DIR/lib/python </action>
                 <action type="set_environment">

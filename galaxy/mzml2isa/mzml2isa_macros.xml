@@ -1,0 +1,188 @@
+<macros>
+    <xml name="studymacro">
+      <conditional name="study_meta">
+            <param name="study_select" type="select" label="Add study meta" help="">
+                <option value="hide" selected="true">Hide</option>
+                <option value="show">Show</option>
+            </param>
+            <when value="hide"/>
+            <when value="show">
+                <param name="study_title" type="text" label="Study Title"/>
+                <param name="s_submission_date" type="text" label="Submission date" help="Date in format YYYY-MM-DD e.g 2016-07-03"/>
+                <param name="s_release_date" type="text" label="Release date" help="Date in format YYYY-MM-DD e.g 2016-07-03"/>
+                <param name="s_description" type="text" label="Description" size="30" help="Short description of the study"/>
+                <param name="s_publication" type="text" label="Publication PubMed identifier"/>
+                <param name="s_doi" type="text" label="Publication DOI"/>
+                <param name="s_title" type="text" label="Publication Title"/>
+                <param name="s_status" type="select" label="Publication Status">
+		    <expand macro="p_status_options"/>
+                </param>
+                <param name="s_author" type="text" label="Publication Authors"/>
+
+            </when>
+        </conditional>
+    </xml>
+
+    <xml name="investmacro">
+        <conditional name="invest_meta">
+            <param name="invest_select" type="select" label="Add investigation meta" help="">
+                <option value="hide" selected="true">Hide</option>
+                <option value="show">Show</option>
+            </param>
+            <when value="hide"/>
+            <when value="show">
+                <param name="i_submission_date" type="text" label="Submission date" help="Date in format YYYY-MM-DD e.g 2016-07-03"/>
+                <param name="i_release_date" type="text" label="Release date"  help="Date in format YYYY-MM-DD e.g 2016-07-03"/>
+                <param name="i_description" type="text" label="Description" size="30" help="Short description of the investigation"/>
+                <param name="i_publication" type="text" label="Publication PubMed identifier"/>
+                <param name="i_doi" type="text" label="Publication DOI"/>
+                <param name="i_title" type="text" label="Publication Title"/>
+                <param name="i_status" type="select" label="Publication Status">
+		    <expand macro="p_status_options"/>
+                </param>
+                <param name="i_author" type="text" label="Publication Authors"/>
+            </when>
+        </conditional>
+    </xml>
+
+    <xml name="scontactmacro">
+        <conditional name="s_contacts">
+            <param name="s_contacts_select" type="select" label="Add contact (study)" help="">
+            <option value="hide" selected="true">Hide</option>
+            <option value="show">Show</option>
+            </param>
+            <when value="hide"/>
+            <when value="show">
+              <param name="s_first_name" type="text" label="First name" />
+              <param name="s_mid_initials" type="text" label="Mid initials"/>
+              <param name="s_last_name" type="text" label="Last name"/>
+              <param name="s_telephone" type="text" label="Telephone"/>
+              <param name="s_fax" type="text" label="fax"/>
+              <param name="s_affiliation" type="text" label="Affiliation"/>
+              <param name="s_role" type="select" label="Role" help="Role in study publication">
+                  <expand macro="p_role_options"/>
+              </param>
+              <param name="s_mail" type="text" label="Mail"/>
+              <param name="s_address" type="text" label="Address"/>
+             </when>
+       </conditional>
+    </xml>
+
+
+    <xml name="icontactmacro">
+        <conditional name="i_contacts">
+            <param name="i_contacts_select" type="select" label="Add contact (investigation)" help="">
+            <option value="hide" selected="true">Hide</option>
+            <option value="show">Show</option>
+            </param>
+            <when value="hide"/>
+            <when value="show">
+              <param name="i_first_name" type="text" label="First name" />
+              <param name="i_mid_initials" type="text" label="Mid initials"/>
+              <param name="i_last_name" type="text" label="Last name"/>
+              <param name="i_telephone" type="text" label="Telephone"/>
+              <param name="i_fax" type="text" label="fax"/>
+              <param name="i_affiliation" type="text" label="Affiliation"/>
+              <param name="i_role" type="select" label="Role" help="Role in investigation publication">
+                  <expand macro="p_role_options"/>
+              </param>
+              <param name="i_mail" type="text" label="Mail"/>
+              <param name="i_address" type="text" label="Address"/>
+             </when>
+       </conditional>
+    </xml>
+
+
+
+    <xml name="expmacro">
+      <conditional name="exp_meta">
+            <param name="exp_select" type="select" label="Add experimental meta" help="">
+                <option value="hide" selected="true">Hide</option>
+                <option value="show">Show</option>
+            </param>
+            <when value="hide"/>
+
+            <when value="show">
+                <param name="organism_text" type="text" label="Organism name (text)"  help="Ontological names can be search for on http://www.ontobee.org/ e.g. Homo sapiens"/>
+                <param name="organism_ref" type="text" label="Organism name (ontology reference)" help="e.g. NCBITAXON"/>
+                <param name="organism_iri" type="text" label="Organism name (link to ontology source)" help="e.g. http://purl.obolibrary.org/obo/NCBITaxon_9606"/>
+                <param name="organism_variant_text" type="text" label="Organism variant (text)" help="e.g. Saccharomyces cerevisiae M3836" />
+                <param name="organism_variant_ref" type="text" label="Organism variant (ontology reference)"  help="e.g. NCBITAXON"/>
+                <param name="organism_variant_iri" type="text" label="Organism variant (link to ontology source)" help="e.g. http://purl.obolibrary.org/obo/NCBITaxon_1162671"/>
+                <param name="organism_part_text" type="text" label="Organism part (text)" help="e.g. lacrimal artery"/>
+                <param name="organism_part_ref" type="text" label="Organism part (ontology reference)"  help="e.g. UBERON"/>
+                <param name="organism_part_iri" type="text" label="Organism part (link to ontology source)" help="e.g. http://purl.obolibrary.org/obo/UBERON_0001622"/>
+
+            </when>
+        </conditional>
+    </xml>
+
+    <xml name="p_role_options">
+        <option value="Archivist">Archivist</option>
+        <option value="Author" selected="true">Author</option>
+        <option value="Author's agent">Author's agent </option>
+        <option value="Blogger">Blogger</option>
+        <option value="Commissioning editor">Commissioning editor</option>
+        <option value="Compiler">Compiler</option>
+        <option value="Contributor">Contributor</option>
+        <option value="Copyright owner">Copyright owner</option>
+        <option value="Critic">Critic</option>
+        <option value="Deputy editor">Deputy editor</option>
+        <option value="Distributor">Distributor</option>
+        <option value="Editor">Editor</option>
+        <option value="Editor-in-chief">Editor-in-chief</option>
+        <option value="Executive editor">Executive editor</option>
+        <option value="Illustrator">Illustrator</option>
+        <option value="Journalist">Journalist</option>
+        <option value="Librarian">"Librarian"</option>
+        <option value="Production editor">Production editor</option>
+        <option value="Publisher">Publisher</option>
+        <option value="Reader">"Reader"</option>
+        <option value="Reviewer">Reviewer</option>
+        <option value="Senior editor">Senior editor</option>
+        <option value="Series editor">Series editor</option>
+        <option value="Translator">Translator</option>
+        <option value="Peer reviewer">Peer reviewer</option>
+        <option value="Proof reader">Proof reader</option>
+        <option value="0">Not applicable/None of the above</option>
+    </xml>
+
+    <xml name="p_status_options">
+        <option value="Accepted for publication">Accepted for publication</option>
+	<option value="Anonymized" selected="true">Anonymized</option>
+        <option value="Archived">Archived</option>
+        <option value="Catalogued">"Catalogued"</option>
+        <option value="Confidential">Confidential</option>
+        <option value="Copy-edited">Copy-edited</option>
+        <option value="Corrected">Corrected</option>
+        <option value="Draft">Draft</option>
+        <option value="Embargoed">Embargoed</option>
+        <option value="Enhanced">Enhanced</option>
+        <option value="Final draft">Final draft</option>
+        <option value="Gold open access">Gold open access</option>
+        <option value="Gratis open access">Gratis open access</option>
+        <option value="Green open access">Green open access</option>
+        <option value="In press">In press</option>
+        <option value="Initial draft">Initial draft</option>
+        <option value="Intermediate draft">Intermediate draft</option>
+        <option value="Libre open access">Libre open access</option>
+        <option value="Non-confidential">Non-confidential</option>
+        <option value="Open access">Open access</option>
+        <option value="Peer reviewed">Peer reviewed</option>
+        <option value="Proof">Proof</option>
+        <option value="Published" selected="true">Published</option>
+        <option value="Rejected for publication">Rejected for publication</option>
+        <option value="Republished">Republished</option>
+        <option value="Restricted access">Restricted access</option>
+        <option value="Retracted from publication">Retracted from publication</option>
+        <option value="Reviewed">Reviewed</option>
+        <option value="Revised">Revised</option>
+        <option value="Submitted">Submitted</option>
+        <option value="Subscription access">Subscription access</option>
+        <option value="Under review">Under review</option>
+        <option value="Unpublished">Unpublished</option>
+        <option value="Version of record">Version of record</option>
+        <option value="Withdrawn from submission">Withdrawn from submission</option>
+        <option value="0">Not applicable/None of the above</option>
+    </xml>
+</macros>
