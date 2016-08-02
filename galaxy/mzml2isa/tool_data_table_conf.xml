@@ -1,6 +1,0 @@
-<tables>
-    <table name="pub_status" comment_char="#">
-        <columns>value, name, link</columns>
-        <file path="tool-data/pub_status.loc" />
-    </table>
-</tables>

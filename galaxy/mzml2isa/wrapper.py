@@ -1,10 +1,8 @@
 import sys
 import json
 import os
-# import mzml2isa.parsing
-import mzml2isa
 from mzml2isa.parsing import full_parse
-import progressbar as pb
+# import progressbar as pb
 
 
 USERMETA = {'characteristics':           {'organism': {'name':'', 'accession':'', 'ref':''},
@@ -173,8 +171,8 @@ def pop_dict(inlist, USERMETA, study_title):
 inlist = sys.argv
 inputzip = inlist[1]
 jsontxt = inlist[2]
-out_dir = inlist[3]
-html_file = inlist[4]
+html_file = inlist[3]
+out_dir = inlist[4]
 study_title = inlist[5]
 
 # check if using json file
@@ -182,6 +180,7 @@ if os.path.isfile(jsontxt):
     with open(jsontxt, 'r') as f:
         usermeta = json.load(f)
 else:
+    print inlist
     usermeta = pop_dict(inlist, USERMETA, study_title)
 
 # parse the files
@@ -189,9 +188,7 @@ full_parse(inputzip, out_dir, study_title, usermeta=usermeta, split=True, merge=
 
 
 
-html_code = '<a href="%s/a_%s_metabolite_profiling_mass_spectrometry.txt">/a_%s_metabolite_profiling_mass_spectrometry.txt</a><br/>\
-             <a href="%s/i_Investigation.txt">i_Investigation.txt</a><br/>\
-             <a href="%s/s_%s.txt">s_test.txt</a><br/>' % tuple([study_title]*6)
+html_code = '<a href="%s/a_%s_metabolite_profiling_mass_spectrometry.txt">a_%s_metabolite_profiling_mass_spectrometry.txt</a><br/><a href="%s/i_Investigation.txt">i_Investigation.txt</a><br/><a href="%s/s_%s.txt">s_test.txt</a><br/>' % tuple([study_title]*6)
 
 with open(html_file, 'wb') as f:
     f.write(html_code)

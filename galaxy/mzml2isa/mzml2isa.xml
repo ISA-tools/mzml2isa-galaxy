@@ -1,5 +1,6 @@
 <tool id="mzml2isa" name="mzml2isa" version="0.1.0">
     <description>Parser to get meta information from mzML files and create an ISA-Tab structure</description>
+    
     <macros>
         <import>mzml2isa_macros.xml</import>
     </macros>
@@ -11,9 +12,8 @@
     <stdio>
         <exit_code range="1:" />
     </stdio>
-
-    <command interpreter="python">
-    #set $study_title = 0
+    
+    <command interpreter="python"><![CDATA[
     #set $s_submission_date = 0
     #set $s_release_date = 0
     #set $s_publication = 0
@@ -122,66 +122,55 @@
         #set $organism_part_iri = $exp_meta.organism_part_iri
     #end if
 
-    wrapper.py $inputzip \
-               $jsontxt \
-               $html_file \
-               $html_file.extra_files_path \
-               $study_title \
-               $s_submission_date \
-               $s_release_date \
-               $s_description \
-               $s_publication \ 
-               $s_doi \
-               $s_title \
-               $s_status \
-               $s_author \
-               $s_first_name \
-               $s_mid_initials \
-               $s_last_name \
-               $s_telephone \
-               $s_fax \
-               $s_affiliation \
-               $s_role \
-               $s_mail \
-               $s_address \ 
-               $i_submission_date \
-               $i_release_date \
-               $s_description \
-               $i_publication \
-               $i_doi \
-               $i_title \
-               $i_status \
-               $i_author \
-               $i_first_name \
-               $i_mid_initials \
-               $i_last_name \
-               $i_telephone \
-               $i_fax \
-               $i_affiliation \
-               $i_role  \
-               $i_mail  \
-               $i_address  \
-               $organism_text  \
-               $organism_ref  \
-               $organism_iri  \
-               $organism_variant_text  \
-               $organism_variant_ref  \
-               $organism_variant_iri  \
-               $organism_part_text  \
-               $organism_part_ref  \
-               $organism_part_iri  \    
-
+    wrapper.py $inputzip 
+               $jsontxt 
+               $html_file 
+               $html_file.extra_files_path 
+               $name_of_study 
+               $s_submission_date 
+               $s_release_date 
+               $s_description 
+               $s_publication 
+               $s_doi 
+               $s_title 
+               $s_status 
+               $s_author 
+               $s_first_name 
+               $s_mid_initials 
+               $s_last_name 
+               $s_telephone 
+               $s_fax 
+               $s_affiliation 
+               $s_role 
+               $s_mail 
+               $s_address  
+               $i_submission_date 
+               $i_release_date 
+               $s_description 
+               $i_publication 
+               $i_doi 
+               $i_title 
+               $i_status 
+               $i_author 
+               $i_first_name 
+               $i_mid_initials 
+               $i_last_name 
+               $i_telephone 
+               $i_fax 
+               $i_affiliation 
+               $i_role 
+               $i_mail 
+               $i_address 
+               $organism_text 
+               $organism_ref 
+               $organism_iri 
+               $organism_variant_text 
+               $organism_variant_ref 
+               $organism_variant_iri 
+               $organism_part_text 
+               $organism_part_ref 
+               $organism_part_iri]]>
     </command>
-    <!--<command>
-    <![CDATA[
-wrapper.py $inputzip $jsontxt $name_of_study $html_file.extra_files_path $study_title $s_submission_date $s_release_date $study_meta.s_publication $study_meta.s_doi  
-
-    mzml2isa -i $inputzip -o $html_file.extra_files_path -s $name_of_study 
-    && echo '<a href="${name_of_study}/a_${name_of_study}_metabolite_profiling_mass_spectrometry.txt">
-              ${name_of_study}/a_${name_of_study}_metabolite_profiling_mass_spectrometry.txt</a><br/>
-             <a href="${name_of_study}/i_Investigation.txt">i_Investigation.txt</a><br/>
-             <a href="${name_of_study}/s_${name_of_study}.txt">s_test.txt</a><br/>'>$html_file]]> 
-    </command>-->
 
     <inputs>
         <param name="name_of_study" type="text" label="Name study" help="" />
@@ -192,37 +181,27 @@ wrapper.py $inputzip $jsontxt $name_of_study $html_file.extra_files_path $study_
         <expand macro="expmacro"/>
         <expand macro="scontactmacro"/>
         <expand macro="icontactmacro"/>
-       
-
     </inputs>
     <outputs>
         <data format="html" name="html_file" label="" />
-	<!--<data format="txt" hidden="True" name="json_file" label="" /> -->
     </outputs>
     <tests>
         <test>
             <param name="name_of_study" value="test" />
             <param name="inputzip" value="metabolomics_study.zip" />
-            <!--<param name="name" type="text" label="Name" help="" />-->
-            <!--<param name="email" type="text" label="Email" help="" />-->
             <output name="output" value="metabolomics_study/test/index.html" />
         </test>
     </tests>
     <help><![CDATA[
 **Overview**
 
-.. image:: $PATH_TO_IMAGES/mzml2isa.png
+.. image:: mzml2isa.png
     ]]></help>
     <citations>
         <citation type="doi">10.1002/0471250953.bi1413s53</citation>
         <citation type="doi">10.1007/s11306-015-0879-3</citation>
         <citation type="doi">10.1038/ng.1054</citation>
     </citations>
-
-
-
-
-
 </tool>
 
 

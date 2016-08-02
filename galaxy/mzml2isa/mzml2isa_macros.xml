@@ -7,7 +7,7 @@
             </param>
             <when value="hide"/>
             <when value="show">
-                <param name="study_title" type="text" label="Study Title"/>
+                <!--<param name="study_title" type="text" label="Study Title"/>-->
                 <param name="s_submission_date" type="text" label="Submission date" help="Date in format YYYY-MM-DD e.g 2016-07-03"/>
                 <param name="s_release_date" type="text" label="Release date" help="Date in format YYYY-MM-DD e.g 2016-07-03"/>
                 <param name="s_description" type="text" label="Description" size="30" help="Short description of the study"/>
