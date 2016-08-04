@@ -1,5 +1,5 @@
 <macros>
-    <xml name="studymacro">
+    <xml name="studymacro" >
       <conditional name="study_meta">
             <param name="study_select" type="select" label="Add study meta" help="">
                 <option value="hide" selected="true">Hide</option>
@@ -11,13 +11,13 @@
                 <param name="s_submission_date" type="text" label="Submission date" help="Date in format YYYY-MM-DD e.g 2016-07-03"/>
                 <param name="s_release_date" type="text" label="Release date" help="Date in format YYYY-MM-DD e.g 2016-07-03"/>
                 <param name="s_description" type="text" label="Description" size="30" help="Short description of the study"/>
-                <param name="s_publication" type="text" label="Publication PubMed identifier"/>
-                <param name="s_doi" type="text" label="Publication DOI"/>
-                <param name="s_title" type="text" label="Publication Title"/>
-                <param name="s_status" type="select" label="Publication Status">
-		    <expand macro="p_status_options"/>
+                <param name="s_pubmed" type="text" label="Publication PubMed identifier"/>
+                <param name="s_pub_doi" type="text" label="Publication DOI"/>
+                <param name="s_pub_title" type="text" label="Publication Title"/>
+                <param name="s_pub_status" type="select" label="Publication Status">
+		            <expand macro="p_status_options"/>
                 </param>
-                <param name="s_author" type="text" label="Publication Authors"/>
+                <param name="s_pub_author" type="text" label="Publication Authors"/>
 
             </when>
         </conditional>
@@ -34,13 +34,13 @@
                 <param name="i_submission_date" type="text" label="Submission date" help="Date in format YYYY-MM-DD e.g 2016-07-03"/>
                 <param name="i_release_date" type="text" label="Release date"  help="Date in format YYYY-MM-DD e.g 2016-07-03"/>
                 <param name="i_description" type="text" label="Description" size="30" help="Short description of the investigation"/>
-                <param name="i_publication" type="text" label="Publication PubMed identifier"/>
-                <param name="i_doi" type="text" label="Publication DOI"/>
-                <param name="i_title" type="text" label="Publication Title"/>
-                <param name="i_status" type="select" label="Publication Status">
+                <param name="i_pubmed" type="text" label="Publication PubMed identifier"/>
+                <param name="i_pub_doi" type="text" label="Publication DOI"/>
+                <param name="i_pub_title" type="text" label="Publication Title"/>
+                <param name="i_pub_status" type="select" label="Publication Status">
 		    <expand macro="p_status_options"/>
                 </param>
-                <param name="i_author" type="text" label="Publication Authors"/>
+                <param name="i_pub_author" type="text" label="Publication Authors"/>
             </when>
         </conditional>
     </xml>

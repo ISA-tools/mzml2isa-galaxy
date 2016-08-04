@@ -1,196 +1,206 @@
 import sys
 import json
 import os
-from mzml2isa.parsing import full_parse
-# import progressbar as pb
+import argparse
+import textwrap
+from copy import deepcopy
+
+def main():
+
+    p = argparse.ArgumentParser(prog='PROG',
+                                formatter_class=argparse.RawDescriptionHelpFormatter,
+                                description='''DI-MS processing for DMA''',
+                                epilog=textwrap.dedent('''\
+                            -------------------------------------------------------------------------
+                            '''))
 
 
-USERMETA = {'characteristics':           {'organism': {'name':'', 'accession':'', 'ref':''},
-                                          'organism_variant':  {'name':'', 'accession':'', 'ref':''},
-                                          'organism_part':     {'name':'', 'accession':'', 'ref':''},
-                                         },
-            'investigation':             {'identifier': '', 'title': 'Investigation', 'description': '',
-                                          'submission_date':'', 'release_date':''
-                                         },
-            'investigation_publication': {'pubmed': '', 'doi': '', 'author_list': '', 'title':'',
-                                          'status': {'name':'', 'accession':'', 'ref':'PSO'},
-                                         },
+    p.add_argument('-inputzip', dest='inputzip', required=True)
+    p.add_argument('-out_dir', dest='out_dir', required=True)
+    p.add_argument('-html_file', dest='html_file', required=True)
+    p.add_argument('-study_title', dest='study_title', required=True)
 
-            'study':                     {
-                                          'title': '', 'description': '', 'submission_date':'', 'release_date':'',
-                                         },
-            'study_publication':         {'pubmed': '', 'doi': '', 'author_list': '', 'title':'',
-                                          'status': {'name':'', 'accession':'', 'ref':'PSO'},
-                                         },
+    p.add_argument('-jsontxt', dest='jsontxt', required=False, nargs='?')
 
-            'description':               {'sample_collect':'', 'extraction':'', 'chroma':'', 'mass_spec':'',
-                                          'data_trans':'', 'metabo_id':''
-                                         },
+    p.add_argument('--s_submission_date', dest='s_submission_date', required=False, default="", nargs='?')
+    p.add_argument('--s_release_date', dest='s_release_date', required=False, default="", nargs='?')
+    p.add_argument('--s_description', dest='s_description', required=False, default="", nargs='?')
+    p.add_argument('--s_pubmed', dest='s_pubmed', required=False, default="", nargs='?')
+    p.add_argument('--s_pub_doi', dest='s_pub_doi', required=False, default="", nargs='?')
+    p.add_argument('--s_pub_status', dest='s_pub_status', required=False, default="", nargs='?')
+    p.add_argument('--s_pub_author', dest='s_pub_author', required=False, default="", nargs='?')
+    p.add_argument('--s_pub_title', dest='s_pub_title', required=False, default="", nargs='?')
+    p.add_argument('--s_first_name', dest='s_first_name', required=False, default="", nargs='?')
+    p.add_argument('--s_mid_initials', dest='s_mid_initials', required=False, default="", nargs='?')
+    p.add_argument('--s_last_name', dest='s_last_name', required=False, default="", nargs='?')
+    p.add_argument('--s_telephone', dest='s_telephone', required=False, default="", nargs='?')
+    p.add_argument('--s_fax', dest='s_fax', required=False, default="", nargs='?')
+    p.add_argument('--s_affiliation', dest='s_affiliation', required=False, default="", nargs='?')
+    p.add_argument('--s_role', dest='s_role', required=False, default="", nargs='?')
+    p.add_argument('--s_mail', dest='s_mail', required=False, default="", nargs='?')
+    p.add_argument('--s_address', dest='s_address', required=False, default="", nargs='?')
+    p.add_argument('--i_submission_date', dest='i_submission_date', required=False, default="", nargs='?')
+    p.add_argument('--i_release_date', dest='i_release_date', required=False, default="", nargs='?')
+    p.add_argument('--i_description', dest='i_description', required=False, default="", nargs='?')
+    p.add_argument('--i_pubmed', dest='i_pubmed', required=False, default="", nargs='?')
+    p.add_argument('--i_pub_doi', dest='i_pub_doi', required=False, default="", nargs='?')
+    p.add_argument('--i_pub_title', dest='i_pub_title', required=False, default="", nargs='?')
+    p.add_argument('--i_pub_status', dest='i_pub_status', required=False, default="", nargs='?')
+    p.add_argument('--i_pub_author', dest='i_pub_author', required=False, default="", nargs='?')
+    p.add_argument('--i_first_name', dest='i_first_name', required=False, default="", nargs='?')
+    p.add_argument('--i_mid_initials', dest='i_mid_initials', required=False, default="", nargs='?')
+    p.add_argument('--i_last_name', dest='i_last_name', required=False, default="", nargs='?')
+    p.add_argument('--i_telephone', dest='i_telephone', required=False, default="", nargs='?')
+    p.add_argument('--i_fax', dest='i_fax', required=False, default="", nargs='?')
+    p.add_argument('--i_affiliation', dest='i_affiliation', required=False, default="", nargs='?')
+    p.add_argument('--i_role', dest='i_role', required=False, default="", nargs='?')
+    p.add_argument('--i_mail', dest='i_mail', required=False, default="", nargs='?')
+    p.add_argument('--i_address', dest='i_address', required=False, default="", nargs='?')
+    p.add_argument('--organism_text', dest='organism_text', required=False, default="", nargs='?')
+    p.add_argument('--organism_ref', dest='organism_ref', required=False, default="", nargs='?')
+    p.add_argument('--organism_iri', dest='organism_iri', required=False, default="", nargs='?')
+    p.add_argument('--organism_part_text', dest='organism_part_text', required=False, default="", nargs='?')
+    p.add_argument('--organism_part_ref', dest='organism_part_ref', required=False, default="", nargs='?')
+    p.add_argument('--organism_part_iri', dest='organism_part_iri', required=False, default="", nargs='?')
+    p.add_argument('--organism_variant_text', dest='organism_variant_text', required=False, default="", nargs='?')
+    p.add_argument('--organism_variant_ref', dest='organism_variant_ref', required=False, default="", nargs='?')
+    p.add_argument('--organism_variant_iri', dest='organism_variant_iri', required=False, default="", nargs='?')
 
-            #Multiple Values Parameters
-            'study_contacts':            [
-                                            {'first_name': '', 'last_name': '', 'mid':'', 'email':'',
-                                             'fax': '', 'phone':'', 'adress':'', 'affiliation':'',
-                                             'roles': {'name':'', 'accession':'', 'ref':''},
-                                            },
-                                         ],
+    args = p.parse_args()
 
-            'investigation_contacts':    [
-                                            {'first_name': '', 'last_name': '', 'mid':'', 'email':'',
-                                             'fax': '', 'phone':'', 'adress':'', 'affiliation':'',
-                                             'roles': {'name':'', 'accession':'', 'ref':''},
-                                            },
-                                         ],
+    USERMETA = {'characteristics': {'organism': {'name': '', 'accession': '', 'ref': ''},
+                                    'organism_variant': {'name': '', 'accession': '', 'ref': ''},
+                                    'organism_part': {'name': '', 'accession': '', 'ref': ''},
+                                    },
+                'investigation': {'identifier': '', 'title': 'Investigation', 'description': '',
+                                  'submission_date': '', 'release_date': ''
+                                  },
+                'investigation_publication': {'pubmed': '', 'doi': '', 'author_list': '', 'title': '',
+                                              'status': {'name': '', 'accession': '', 'ref': 'PSO'},
+                                              },
 
-            'Post Extraction':           {'value': ''},
-            'Derivatization':            {'value': ''},
-            'Chromatography Instrument': {'name':'', 'ref':'', 'accession':''},
-            'Column type':               {'value': ''},
-            'Column model':              {'value': ''},
-}
+                'study': {
+                    'title': '', 'description': '', 'submission_date': '', 'release_date': '',
+                },
+                'study_publication': {'pubmed': '', 'doi': '', 'author_list': '', 'title': '',
+                                      'status': {'name': '', 'accession': '', 'ref': 'PSO'},
+                                      },
 
+                'description': {'sample_collect': '', 'extraction': '', 'chroma': '', 'mass_spec': '',
+                                'data_trans': '', 'metabo_id': ''
+                                },
 
-# Parse
-def pop_dict(inlist, USERMETA, study_title):
+                # Multiple Values Parameters
+                'study_contacts': [
+                    {'first_name': '', 'last_name': '', 'mid': '', 'email': '',
+                     'fax': '', 'phone': '', 'adress': '', 'affiliation': '',
+                     'roles': {'name': '', 'accession': '', 'ref': ''},
+                     },
+                ],
 
-    # study info
-    s_submission_date = inlist[6]
-    s_release_date = inlist[7]
-    s_description = inlist[8]
-    s_publication = inlist[9]
-    s_doi = inlist[10]
-    s_title = inlist[11]
-    s_status = inlist[12]
-    s_author = inlist[13]
+                'investigation_contacts': [
+                    {'first_name': '', 'last_name': '', 'mid': '', 'email': '',
+                     'fax': '', 'phone': '', 'adress': '', 'affiliation': '',
+                     'roles': {'name': '', 'accession': '', 'ref': ''},
+                     },
+                ],
 
-    # study contact info
-    s_first_name = inlist[14]
-    s_mid_initials = inlist[15]
-    s_last_name = inlist[16]
-    s_telephone = inlist[17]
-    s_fax = inlist[18]
-    s_affiliation = inlist[19]
-    s_role = inlist[20]
-    s_mail = inlist[21]
-    s_address = inlist[22]
+                'Post Extraction': {'value': ''},
+                'Derivatization': {'value': ''},
+                'Chromatography Instrument': {'name': '', 'ref': '', 'accession': ''},
+                'Column type': {'value': ''},
+                'Column model': {'value': ''},
+                }
 
-    # investigation info
-    i_submission_date = inlist[23]
-    i_release_date = sys.argv[24]
-    i_description = sys.argv[25]
-    i_publication = sys.argv[26]
-    i_doi = sys.argv[27]
-    i_title = sys.argv[28]
-    i_status = sys.argv[29]
-    i_author = sys.argv[30]
+    # check if using json file
+    if args.jsontxt and os.path.isfile(args.jsontxt):
+        with open(args.jsontxt, 'r') as f:
+            USERMETA = json.load(f)
+    else:
 
-    # investigation contact info
-    i_first_name = sys.argv[31]
-    i_mid_initials = sys.argv[32]
-    i_last_name = sys.argv[33]
-    i_telephone = sys.argv[34]
-    i_fax = sys.argv[35]
-    i_affiliation = sys.argv[36]
-    i_role = sys.argv[37]
-    i_mail = sys.argv[38]
-    i_address = sys.argv[39]
+        # Fill in USERMETA dictionary
+        USERMETA['characteristics']['organism']['value'] = args.organism_text
+        USERMETA['characteristics']['organism']['accession'] = args.organism_iri
+        USERMETA['characteristics']['organism']['ref'] = args.organism_ref
 
-    # organism info
-    organism_text = sys.argv[40]
-    organism_ref = sys.argv[41]
-    organism_iri = sys.argv[42]
-    organism_variant_text = sys.argv[43]
-    organism_variant_ref = sys.argv[44]
-    organism_variant_iri = sys.argv[45]
-    organism_part_text = sys.argv[46]
-    organism_part_ref = sys.argv[47]
-    organism_part_iri = sys.argv[48]
+        USERMETA['characteristics']['organism_variant']['value'] = args.organism_variant_text
+        USERMETA['characteristics']['organism_variant']['accession'] = args.organism_variant_iri
+        USERMETA['characteristics']['organism_variant']['ref'] = args.organism_variant_ref
 
-    # Fill in USERMETA dictionary
-    USERMETA['characteristics']['organism']['value'] = organism_text
-    USERMETA['characteristics']['organism']['accession'] = organism_iri
-    USERMETA['characteristics']['organism']['ref'] = organism_ref
+        USERMETA['characteristics']['organism_part']['value'] = args.organism_part_text
+        USERMETA['characteristics']['organism_part']['accession'] = args.organism_part_iri
+        USERMETA['characteristics']['organism_part']['ref'] = args.organism_part_ref
 
-    USERMETA['characteristics']['organism_variant']['value'] = organism_variant_text
-    USERMETA['characteristics']['organism_variant']['accession'] = organism_variant_iri
-    USERMETA['characteristics']['organism_variant']['ref'] = organism_variant_ref
+        # USERMETA['investigation']['identifier'] = # uses study identifier
+        USERMETA['investigation']['description'] = args.i_description
+        USERMETA['investigation']['submission_date'] = args.i_submission_date
+        USERMETA['investigation']['release_date'] = args.i_release_date
 
-    USERMETA['characteristics']['organism_part']['value'] = organism_part_text
-    USERMETA['characteristics']['organism_part']['accession'] = organism_part_iri
-    USERMETA['characteristics']['organism_part']['ref'] = organism_part_ref
+        USERMETA['investigation_publication']['pubmed'] = args.i_pubmed
+        USERMETA['investigation_publication']['author_list'] = args.i_pub_author
+        USERMETA['investigation_publication']['title'] = args.i_pub_title
+        USERMETA['investigation_publication']['doi'] = args.i_pub_doi
+        USERMETA['investigation_publication']['status']['name'] = args.i_pub_status
+        USERMETA['investigation_publication']['status']['accession'] = ""
 
-    #USERMETA['investigation']['identifier'] = # uses study identifier
-    USERMETA['investigation']['description'] = i_description
-    USERMETA['investigation']['submission_date'] = i_submission_date
-    USERMETA['investigation']['release_date'] = i_release_date
+        USERMETA['investigation_contacts'][0]['first_name'] = args.i_first_name
+        USERMETA['investigation_contacts'][0]['last_name'] = args.i_last_name
+        USERMETA['investigation_contacts'][0]['mid'] = args.i_mid_initials
+        USERMETA['investigation_contacts'][0]['email'] = args.i_mail
+        USERMETA['investigation_contacts'][0]['fax'] = args.i_fax
+        USERMETA['investigation_contacts'][0]['phone'] = args.i_telephone
+        USERMETA['investigation_contacts'][0]['adress'] = args.i_address
+        USERMETA['investigation_contacts'][0]['affiliation'] = args.i_affiliation
+        USERMETA['investigation_contacts'][0]['roles']['name'] = args.i_role
+        USERMETA['investigation_contacts'][0]['roles']['accession'] = ""
 
-    USERMETA['investigation_publication']['pubmed'] = i_publication
-    USERMETA['investigation_publication']['author_list'] = i_author
-    USERMETA['investigation_publication']['title'] = i_title
-    USERMETA['investigation_publication']['doi'] = i_doi
-    USERMETA['investigation_publication']['status']['name'] = i_status
-    USERMETA['investigation_publication']['status']['accession'] = ""
+        USERMETA['study']['title'] = args.study_title
+        USERMETA['study']['description'] = args.s_description
+        USERMETA['study']['submission_date'] = args.s_submission_date
+        USERMETA['study']['release_date'] = args.s_release_date
 
-    USERMETA['investigation_contacts'][0]['first_name'] = i_first_name
-    USERMETA['investigation_contacts'][0]['last_name'] = i_last_name
-    USERMETA['investigation_contacts'][0]['mid'] = i_mid_initials
-    USERMETA['investigation_contacts'][0]['email'] = i_mail
-    USERMETA['investigation_contacts'][0]['fax'] = i_fax
-    USERMETA['investigation_contacts'][0]['phone'] = i_telephone
-    USERMETA['investigation_contacts'][0]['adress'] = i_address
-    USERMETA['investigation_contacts'][0]['affiliation'] = i_affiliation
-    USERMETA['investigation_contacts'][0]['roles']['name'] = i_role
-    USERMETA['investigation_contacts'][0]['roles']['accession'] = ""
+        USERMETA['study_publication']['pubmed'] = args.s_pubmed
+        USERMETA['study_publication']['author_list'] = args.s_pub_author
+        USERMETA['study_publication']['title'] = args.s_pub_title
+        USERMETA['study_publication']['doi'] = args.s_pub_doi
+        USERMETA['study_publication']['status']['name'] = args.s_pub_status
+        USERMETA['study_publication']['status']['accession'] = ""
 
-    USERMETA['study']['title'] = study_title
-    USERMETA['study']['description'] = s_description
-    USERMETA['study']['submission_date'] = s_submission_date
-    USERMETA['study']['release_date'] = s_release_date
-
-    USERMETA['study_publication']['pubmed'] = s_publication
-    USERMETA['study_publication']['author_list'] = s_author
-    USERMETA['study_publication']['title'] = s_title
-    USERMETA['study_publication']['doi'] = s_doi
-    USERMETA['study_publication']['status']['name'] = s_status
-    USERMETA['study_publication']['status']['accession'] = ""
-
-    USERMETA['study_contacts'][0]['first_name'] = s_first_name
-    USERMETA['study_contacts'][0]['last_name'] = s_last_name
-    USERMETA['study_contacts'][0]['mid'] = s_mid_initials
-    USERMETA['study_contacts'][0]['email'] = s_mail
-    USERMETA['study_contacts'][0]['fax'] = s_fax
-    USERMETA['study_contacts'][0]['phone'] = s_telephone
-    USERMETA['study_contacts'][0]['adress'] = s_address
-    USERMETA['study_contacts'][0]['affiliation'] = s_affiliation
-    USERMETA['study_contacts'][0]['roles']['name'] = s_role
-    USERMETA['study_contacts'][0]['roles']['accession'] = ""
-
-    return USERMETA
-
-# General
-inlist = sys.argv
-inputzip = inlist[1]
-jsontxt = inlist[2]
-html_file = inlist[3]
-out_dir = inlist[4]
-study_title = inlist[5]
-
-# check if using json file
-if os.path.isfile(jsontxt):
-    with open(jsontxt, 'r') as f:
-        usermeta = json.load(f)
-else:
-    print inlist
-    usermeta = pop_dict(inlist, USERMETA, study_title)
-
-# parse the files
-full_parse(inputzip, out_dir, study_title, usermeta=usermeta, split=True, merge=False, verbose=False, multip=False)
+        USERMETA['study_contacts'][0]['first_name'] = args.s_first_name
+        USERMETA['study_contacts'][0]['last_name'] = args.s_last_name
+        USERMETA['study_contacts'][0]['mid'] = args.s_mid_initials
+        USERMETA['study_contacts'][0]['email'] = args.s_mail
+        USERMETA['study_contacts'][0]['fax'] = args.s_fax
+        USERMETA['study_contacts'][0]['phone'] = args.s_telephone
+        USERMETA['study_contacts'][0]['adress'] = args.s_address
+        USERMETA['study_contacts'][0]['affiliation'] = args.s_affiliation
+        USERMETA['study_contacts'][0]['roles']['name'] = args.s_role
+        USERMETA['study_contacts'][0]['roles']['accession'] = ""
 
 
+    try:
+        from mzml2isa.parsing import full_parse
+        import progressbar as pb
+        # parse the files
+        full_parse(args.inputzip, args.out_dir, args.study_title, usermeta=USERMETA, split=True, merge=False, verbose=False,
+                   multip=False)
 
-html_code = '<a href="%s/a_%s_metabolite_profiling_mass_spectrometry.txt">a_%s_metabolite_profiling_mass_spectrometry.txt</a><br/><a href="%s/i_Investigation.txt">i_Investigation.txt</a><br/><a href="%s/s_%s.txt">s_test.txt</a><br/>' % tuple([study_title]*6)
+    except ImportError:
+        import tempfile
+        temp = tempfile.NamedTemporaryFile()
+        temp.write(json.dumps(USERMETA))
+        temp.seek(0)
+        os.system("mzml2isa -i %s -o %s -s %s -m %s" % (args.inputzip, args.out_dir, args.study_title, temp.name))
+        temp.close()
 
-with open(html_file, 'wb') as f:
-    f.write(html_code)
+    html_code = '<a href="%s/a_%s_metabolite_profiling_mass_spectrometry.txt">a_%s_metabolite_profiling_mass_spectrometry.txt</a>' \
+                '<br/><a href="%s/i_Investigation.txt">i_Investigation.txt</a><br/>' \
+                '<a href="%s/s_%s.txt">s_test.txt</a><br/>' % tuple([args.study_title] * 6)
+
+    with open(args.html_file, 'wb') as f:
+        f.write(html_code)
 
 
+
+if __name__ == "__main__":
+    main()
