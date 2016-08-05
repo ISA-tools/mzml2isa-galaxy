@@ -134,10 +134,10 @@
         <option value="Executive editor">Executive editor</option>
         <option value="Illustrator">Illustrator</option>
         <option value="Journalist">Journalist</option>
-        <option value="Librarian">"Librarian"</option>
+        <option value="Librarian">Librarian</option>
         <option value="Production editor">Production editor</option>
         <option value="Publisher">Publisher</option>
-        <option value="Reader">"Reader"</option>
+        <option value="Reader">Reader</option>
         <option value="Reviewer">Reviewer</option>
         <option value="Senior editor">Senior editor</option>
         <option value="Series editor">Series editor</option>
@@ -148,10 +148,10 @@
     </xml>
 
     <xml name="p_status_options">
-        <option value="Accepted for publication">Accepted for publication</option>
-	<option value="Anonymized" selected="true">Anonymized</option>
-        <option value="Archived">Archived</option>
-        <option value="Catalogued">"Catalogued"</option>
+        <option value="Accepted for publication" selected="true">Accepted for publication</option>
+	    <option value="Anonymized" >Anonymized</option>
+        <option value="Archived:">Archived</option>
+        <option value="Catalogued">Catalogued</option>
         <option value="Confidential">Confidential</option>
         <option value="Copy-edited">Copy-edited</option>
         <option value="Corrected">Corrected</option>

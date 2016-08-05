@@ -122,58 +122,58 @@
     #end if
 
 
-    wrapper.py -inputzip $inputzip
-               -jsontxt $jsontxt
-               -html_file $html_file
-               -out_dir $html_file.extra_files_path
-               -study_title $name_of_study
-               --s_submission_date $s_submission_date
-               --s_release_date $s_release_date
-               --s_description $s_description
-               --s_pubmed $s_pubmed
-               --s_pub_doi $s_pub_doi
-               --s_pub_status $s_pub_status
-               --s_pub_title $s_pub_title
-               --s_pub_author $s_pub_author
-               --s_first_name $s_first_name
-               --s_mid_initials $s_mid_initials
-               --s_last_name $s_last_name
-               --s_telephone $s_telephone
-               --s_fax $s_fax
-               --s_affiliation $s_affiliation
-               --s_role $s_role
-               --s_mail $s_mail
-               --s_address $s_address
-               --i_submission_date $i_submission_date
-               --i_release_date $i_release_date
-               --i_description $i_description
-               --i_pubmed $i_pubmed
-               --i_pub_doi $i_pub_doi
-               --i_pub_title $i_pub_title
-               --i_pub_status $i_pub_status
-               --i_pub_author $i_pub_author
-               --i_first_name $i_first_name
-               --i_mid_initials $i_mid_initials
-               --i_last_name $i_last_name
-               --i_telephone $i_telephone
-               --i_fax $i_fax
-               --i_affiliation $i_affiliation
-               --i_role $i_role
-               --i_mail $i_mail
-               --i_address $i_address
-               --organism_text $organism_text
-               --organism_ref $organism_ref
-               --organism_iri $organism_iri
-               --organism_variant_text $organism_variant_text
-               --organism_variant_ref $organism_variant_ref
-               --organism_variant_iri $organism_variant_iri
-               --organism_part_text $organism_part_text
-               --organism_part_ref $organism_part_ref
-               --organism_part_iri $organism_part_iri]]>
+    wrapper.py -inputzip "$inputzip"
+               -jsontxt "$jsontxt"
+               -html_file "$html_file"
+               -out_dir "$html_file.extra_files_path"
+               -study_title "$name_of_study"
+               --s_submission_date "$s_submission_date"
+               --s_release_date "$s_release_date"
+               --s_description "$s_description"
+               --s_pubmed "$s_pubmed"
+               --s_pub_doi "$s_pub_doi"
+               --s_pub_status "$s_pub_status"
+               --s_pub_title "$s_pub_title"
+               --s_pub_author "$s_pub_author"
+               --s_first_name "$s_first_name"
+               --s_mid_initials "$s_mid_initials"
+               --s_last_name "$s_last_name"
+               --s_telephone "$s_telephone"
+               --s_fax "$s_fax"
+               --s_affiliation "$s_affiliation"
+               --s_role "$s_role"
+               --s_mail "$s_mail"
+               --s_address "$s_address"
+               --i_submission_date "$i_submission_date"
+               --i_release_date "$i_release_date"
+               --i_description "$i_description"
+               --i_pubmed "$i_pubmed"
+               --i_pub_doi "$i_pub_doi"
+               --i_pub_title "$i_pub_title"
+               --i_pub_status "$i_pub_status"
+               --i_pub_author "$i_pub_author"
+               --i_first_name "$i_first_name"
+               --i_mid_initials "$i_mid_initials"
+               --i_last_name "$i_last_name"
+               --i_telephone "$i_telephone"
+               --i_fax "$i_fax"
+               --i_affiliation "$i_affiliation"
+               --i_role "$i_role"
+               --i_mail "$i_mail"
+               --i_address "$i_address"
+               --organism_text "$organism_text"
+               --organism_ref "$organism_ref"
+               --organism_iri "$organism_iri"
+               --organism_variant_text "$organism_variant_text"
+               --organism_variant_ref "$organism_variant_ref"
+               --organism_variant_iri "$organism_variant_iri"
+               --organism_part_text "$organism_part_text"
+               --organism_part_ref "$organism_part_ref"
+               --organism_part_iri "$organism_part_iri"]]>
     </command>
 
     <inputs>
-        <param name="name_of_study" type="text" label="Name study" help="" />
+        <param name="name_of_study" type="text" label="Name study" help="This should not contain any spaces as the name will be used a prefix for ISA-tab file names" />
         <param format="zip" name="inputzip" type="data" label="mzML zip file"  help="A zipped folder of mzML files"/>
         <param optional="true" format="txt" name="jsontxt" type="data" label="Additional user Metadata in json"  help="A user can add additional metadata directory through a json see link for example format"/>
         <expand macro="studymacro"/>
