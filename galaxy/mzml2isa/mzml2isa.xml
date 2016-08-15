@@ -5,9 +5,12 @@
         <import>mzml2isa_macros.xml</import>
     </macros>
 
+    <code file="ontology_search.py" />
+
     <requirements>
         <requirement type="package" version="0.4.19">mzml2isa</requirement>
     </requirements>
+
 
     <stdio>
         <exit_code range="1:" />
@@ -175,7 +178,7 @@
     <inputs>
         <param name="name_of_study" type="text" label="Name study" help="This should not contain any spaces as the name will be used a prefix for ISA-tab file names" />
         <param format="zip" name="inputzip" type="data" label="mzML zip file"  help="A zipped folder of mzML files"/>
-        <param optional="true" format="txt" name="jsontxt" type="data" label="Additional user Metadata in json"  help="A user can add additional metadata directory through a json see link for example format"/>
+        <param optional="true" format="txt" name="jsontxt" type="data" label="Additional user Metadata in json"  help="A user can add additional metadata directory through a json file"/>
         <expand macro="studymacro"/>
         <expand macro="investmacro"/>
         <expand macro="expmacro"/>

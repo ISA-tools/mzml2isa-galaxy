@@ -11,5 +11,6 @@ include:
   - mzml2isa.xml
   - static/images/**
   - test-data/**
+  - tool-data/**
   - README.rst
 

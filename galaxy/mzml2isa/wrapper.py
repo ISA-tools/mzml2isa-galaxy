@@ -4,25 +4,28 @@ import os
 import argparse
 import textwrap
 import csv
+import inspect
 
 
 def ontology_lookup(name, table):
-    # takes in ontology name and source (e.g. loc file) and outputs the associated accesion number
-    tool_data_pth = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'tool-data')
+    # takes in accession number outputs the name
+    filename = inspect.getframeinfo(inspect.currentframe()).filename
+    path = os.path.dirname(os.path.abspath(filename))
+
+
     # check if correct table
     if table=="role":
-        tablepth = os.path.join(tool_data_pth, 'pub_role.loc')
+        tablepth = os.path.join(path, 'pub_role.loc')
     elif table=="status":
-        tablepth = os.path.join(tool_data_pth, 'pub_status.loc')
+        tablepth = os.path.join(path, 'pub_status.loc')
     else:
         print "Table not recognised"
         return ""
 
     with open(tablepth, "rb") as csvfile:
         reader = csv.reader(csvfile, delimiter='\t')
-        ont_dict = dict((k, v) for k, v in reader)
+        ont_dict = dict((k, v) for v, k in reader)
         try:
-            print ont_dict[name]
             return ont_dict[name]
         except KeyError:
             return ""
@@ -164,8 +167,8 @@ def main():
         USERMETA['investigation_publication']['author_list'] = args.i_pub_author
         USERMETA['investigation_publication']['title'] = args.i_pub_title
         USERMETA['investigation_publication']['doi'] = args.i_pub_doi
-        USERMETA['investigation_publication']['status']['name'] = args.i_pub_status
-        USERMETA['investigation_publication']['status']['accession'] = ontology_lookup(args.i_pub_status, 'status')
+        USERMETA['investigation_publication']['status']['name'] = ontology_lookup(args.i_pub_status, 'status')
+        USERMETA['investigation_publication']['status']['accession'] = args.i_pub_status
 
         USERMETA['investigation_contacts'][0]['first_name'] = args.i_first_name
         USERMETA['investigation_contacts'][0]['last_name'] = args.i_last_name
@@ -175,8 +178,8 @@ def main():
         USERMETA['investigation_contacts'][0]['phone'] = args.i_telephone
         USERMETA['investigation_contacts'][0]['adress'] = args.i_address
         USERMETA['investigation_contacts'][0]['affiliation'] = args.i_affiliation
-        USERMETA['investigation_contacts'][0]['roles']['name'] = args.i_role
-        USERMETA['investigation_contacts'][0]['roles']['accession'] = ontology_lookup(args.i_role, 'role')
+        USERMETA['investigation_contacts'][0]['roles']['name'] = ontology_lookup(args.i_role, 'role')
+        USERMETA['investigation_contacts'][0]['roles']['accession'] = args.i_role
 
         USERMETA['study']['title'] = args.study_title
         USERMETA['study']['description'] = args.s_description
@@ -187,8 +190,8 @@ def main():
         USERMETA['study_publication']['author_list'] = args.s_pub_author
         USERMETA['study_publication']['title'] = args.s_pub_title
         USERMETA['study_publication']['doi'] = args.s_pub_doi
-        USERMETA['study_publication']['status']['name'] = args.s_pub_status
-        USERMETA['study_publication']['status']['accession'] = ontology_lookup(args.s_pub_status, 'status')
+        USERMETA['study_publication']['status']['name'] = ontology_lookup(args.s_pub_status, 'status')
+        USERMETA['study_publication']['status']['accession'] = args.s_pub_status
 
         USERMETA['study_contacts'][0]['first_name'] = args.s_first_name
         USERMETA['study_contacts'][0]['last_name'] = args.s_last_name
@@ -198,8 +201,8 @@ def main():
         USERMETA['study_contacts'][0]['phone'] = args.s_telephone
         USERMETA['study_contacts'][0]['adress'] = args.s_address
         USERMETA['study_contacts'][0]['affiliation'] = args.s_affiliation
-        USERMETA['study_contacts'][0]['roles']['name'] = args.s_role
-        USERMETA['study_contacts'][0]['roles']['accession'] = ontology_lookup(args.s_role, 'role')
+        USERMETA['study_contacts'][0]['roles']['name'] = ontology_lookup(args.s_role, 'role')
+        USERMETA['study_contacts'][0]['roles']['accession'] = args.s_role
 
 
     try:
