@@ -8,9 +8,8 @@
     <code file="ontology_search.py" />
 
     <requirements>
-        <requirement type="package" version="0.4.19">mzml2isa</requirement>
+        <requirement type="package" version="0.4.24">mzml2isa</requirement>
     </requirements>
-
 
     <stdio>
         <exit_code range="1:" />
