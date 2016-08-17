@@ -12,7 +12,7 @@ mkdir $DOWNLOAD_CACHE
 planemo dependency_script -r packages/package_mzml2isa_0_4_22/
 . env.sh
 bash dep_install.sh
-planemo s --galaxy_root=../galaxy galaxy/mzml2isa/
+planemo test --galaxy_root=../galaxy galaxy/mzml2isa/
 rm env.sh
 rm dep_install.sh
 deactivate #exit virtualenv
