@@ -1,15 +1,5 @@
-# mzml2isa-galaxy
-Wrapping mzml2isa into a galaxy tool.
+mzml2isa for galaxy
+===============
 
-## Todo list (required before paper submission)
+[![install with bioconda](https://img.shields.io/badge/install%20with-bioconda-brightgreen.svg?style=flat-square)](http://bioconda.github.io/recipes/mzml2isa/README.html) [![Build Status](https://travis-ci.org/ISA-tools/mzml2isa-galaxy.svg?branch=master)](https://travis-ci.org/ISA-tools/mzml2isa-galaxy)
 
-- [ ] Add to local toolshed
-- [ ] Push to public toolshed
-- [ ] Add nmrml2isa-galaxy repo
-- [x] Add argeparse to wrapper script
-
-## Todo list (if time / required)
-
-- [ ] Add LC details meta details
-- [ ] Add imzML meta details
-- [ ] Add ontology lookup or ontology specific fields 
