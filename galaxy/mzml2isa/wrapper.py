@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import sys
 import json
 import os
@@ -209,7 +211,7 @@ def main():
         from mzml2isa.parsing import full_parse
         # import progressbar as pb
         # parse the files
-        full_parse(args.inputzip, args.out_dir, args.study_title, usermeta=USERMETA, split=True, merge=False, verbose=False,
+        full_parse(args.inputzip, args.out_dir, args.study_title, usermeta=USERMETA, split=True, merge=False, verbose=True,
                    multip=False)
 
     except ImportError:
