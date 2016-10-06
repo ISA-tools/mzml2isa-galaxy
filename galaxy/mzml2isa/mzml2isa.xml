@@ -197,8 +197,13 @@ Notes:
 - Multiple a_ files
 - Single s_ as per mzml2isa definition (ISA does allow more than one s_ file).
 - Single i_ file.
+
+The html output is now redundant, have left as hidden for now in case we revert back later. However,
+this would require changing the out_dir for wrapper.py back to $html_file.extra_files_path. i.e.
+'wrapper.py -out_dir $html_file.extra_files_path'
+
 -->
-    <data format="html" name="html_file" label="" />
+    <data format="html" name="html_file" label="" hidden="true" />
     <data name="ISA_zip" format="zip" label="ISA Zip file"/>
     <collection type="list" label="A Files" name="a_files">
         <discover_datasets pattern="(?P&lt;designation&gt;a_.+)\.txt" directory="study_dir" format="tabular"/>
@@ -208,6 +213,7 @@ Notes:
 	</collection>
 	<data name="i_file" format="tabular" label="I File" from_work_dir="study_dir/i_Investigation.txt" visible="true"/>
     </outputs>
+    
     <tests>
         <test>
             <param name="name_of_study" value="test" />

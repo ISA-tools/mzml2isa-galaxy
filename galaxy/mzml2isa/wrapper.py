@@ -222,6 +222,9 @@ def main():
         os.system("mzml2isa -i %s -o %s -s %s -m %s" % (args.inputzip, args.out_dir, args.study_title, temp.name))
         temp.close()
 
+    # The html output is now redundant, the output will be hidden to end user. Have left here in case we need to
+    # revert back to the old output style. If this is the case we need to use
+    # 'wrapper.py -out_dir $html_file.extra_files_path' in the xml code
     html_code = '<a href="%s/a_%s_metabolite_profiling_mass_spectrometry.txt">a_%s_metabolite_profiling_mass_spectrometry.txt</a>' \
                 '<br/><a href="%s/i_Investigation.txt">i_Investigation.txt</a><br/>' \
                 '<a href="%s/s_%s.txt">s_test.txt</a><br/>' % tuple([args.study_title] * 6)
