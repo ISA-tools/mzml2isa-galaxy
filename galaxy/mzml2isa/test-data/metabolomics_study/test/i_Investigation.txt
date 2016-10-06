@@ -11,7 +11,7 @@ Investigation Submission Date	""
 Investigation Public Release Date	""
 Comment[Created With Configuration]	""
 Comment[Last Opened With Configuration]	""
-Comment[Created With Tool]	"mzml2isa 0.4.22"
+Comment[Created With Tool]	"mzml2isa 0.4.24"
 INVESTIGATION PUBLICATIONS
 Investigation PubMed ID	""
 Investigation Publication DOI	""
