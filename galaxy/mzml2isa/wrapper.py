@@ -44,7 +44,7 @@ def main():
                             '''))
 
 
-    p.add_argument('-inputzip', dest='inputzip', required=True)
+    p.add_argument('-inputzip', dest='inputzip', required=True, help="Provide a Zip or TAR file")
     p.add_argument('-out_dir', dest='out_dir', required=True)
     p.add_argument('-html_file', dest='html_file', required=True)
     p.add_argument('-study_title', dest='study_title', required=True)
