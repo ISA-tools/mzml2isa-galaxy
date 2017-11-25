@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import sys
+from __future__ import print_function
 import json
 import os
 import argparse
@@ -21,7 +21,7 @@ def ontology_lookup(name, table):
     elif table=="status":
         tablepth = os.path.join(path, 'pub_status.loc')
     else:
-        print "Table not recognised"
+        print("Table not recognised")
         return ""
 
     with open(tablepth, "rb") as csvfile:
