@@ -126,7 +126,7 @@
 
     wrapper.py -inputzip "$inputzip"
                -jsontxt "$jsontxt"
-               -html_file "$html_file"
+               -html_file "$name_of_study.html"
                -out_dir .
                -study_title "$name_of_study"
                --s_submission_date "$s_submission_date"
@@ -173,10 +173,8 @@
                --organism_part_ref "$organism_part_ref"
 	           --organism_part_iri "$organism_part_iri";
 
-	       ln -s ./"$name_of_study" study_dir;
-
-	       cd study_dir;
-	       zip isa.zip i_* a_* s_* && mv isa.zip "$ISA_zip";
+	   mv ./"$name_of_study.html" "$isa";
+       mv ./"$name_of_study" "$isa.files_path";
 	       ]]>
     </command>
 
@@ -191,49 +189,14 @@
         <expand macro="icontactmacro"/>
     </inputs>
     <outputs>
-<!--
-Notes:
-
-- Multiple a_ files
-- Single s_ as per mzml2isa definition (ISA does allow more than one s_ file).
-- Single i_ file.
-
-The html output is now redundant, have left as hidden for now in case we revert back later. However,
-this would require changing the out_dir for wrapper.py back to $html_file.extra_files_path. i.e.
-'wrapper.py -out_dir $html_file.extra_files_path'
-
--->
-    <data format="html" name="html_file" label="" hidden="true" />
-    <data name="ISA_zip" format="zip" label="ISA Zip file"/>
-    <collection type="list" label="A Files" name="a_files">
-        <discover_datasets pattern="(?P&lt;designation&gt;a_.+)\.txt" directory="study_dir" format="tabular"/>
-	</collection>
-	<collection type="list" label="S Files" name="s_files">
-		<discover_datasets pattern="(?P&lt;designation&gt;s_.+)\.txt" directory="study_dir" format="tabular"/>
-	</collection>
-	<data name="i_file" format="tabular" label="I File" from_work_dir="study_dir/i_Investigation.txt" visible="true"/>
+   	    <data format="isa-tab" name="isa" label="${name_of_study}"/>
     </outputs>
 
     <tests>
         <test>
             <param name="name_of_study" value="test" />
             <param name="inputzip" value="metabolomics_study.zip" ftype="zip" />
-            <output name="html_file" value="metabolomics_study/test/index.html" />
-            <output name="i_file" value="metabolomics_study/test/i_Investigation.txt" />
-            <output_collection name="a_files" type="list" count="1">
-                <element name="a_test_metabolite_profiling_mass_spectrometry">
-                    <assert_contents>
-                        <has_n_columns n="77" />
-                    </assert_contents>
-                </element>
-            </output_collection>
-            <output_collection name="s_files" type="list" count="1">
-                <element name="s_test">
-                    <assert_contents>
-                        <has_n_columns n="12" />
-                    </assert_contents>
-                </element>
-            </output_collection>
+            <output name="isa" file="metabolomics_study/test/index.html" />
         </test>
     </tests>
     <help><![CDATA[
