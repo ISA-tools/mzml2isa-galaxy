@@ -44,7 +44,7 @@ def main():
                             '''))
 
 
-    p.add_argument('-inputzip', dest='inputzip', required=False)
+    p.add_argument('-inputzip', dest='inputzip', required=False, help="Provide a Zip or TAR file")
     p.add_argument('-folder', dest='folder', required=False)
     p.add_argument('-out_dir', dest='out_dir', required=True)
     p.add_argument('-html_file', dest='html_file', required=True)
@@ -228,13 +228,6 @@ def main():
             inp = args.inputzip
         else:
             inp = args.folder
-        print inp
-        print os.listdir(inp)
-        print "====================================================="
-        print "====================================================="
-        print "====================================================="
-        print "====================================================="
-        print "====================================================="
         os.system("mzml2isa -i %s -o %s -s %s -m %s" % (inp, args.out_dir, args.study_title, temp.name))
         temp.close()
 

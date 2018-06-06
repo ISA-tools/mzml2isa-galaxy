@@ -142,6 +142,8 @@
     python $__tool_directory__/wrapper.py
     #if $input.format == "zip_file"
          -inputzip "$input.source"
+    #else if $input.format == "tar_file"
+         -inputzip "$input.source"
     #else if $input.format == "data_collection"
          -folder "temp"
     #end if
@@ -206,6 +208,7 @@
         <conditional name="input">
             <param name="format" type="select" label="Choose the source for the dataset" >
                 <option value="zip_file" selected="true">Zip file from your History containing a folder of *.mzML files</option>
+                <option value="tar_file">TAR file from your history containing a folder of *.mzML files</option>
                 <option value="data_collection">Data collection (*.mzML files)</option>
             </param>
             <when value="zip_file">
@@ -213,6 +216,9 @@
                     <validator type="empty_field" />
                 </param>
             </when>
+            <when value="tar_file">
+		<param format="tar" name="tar_input" type="data" label="TAR file from your History containing *.mzml files"/>
+	    </when>
             <when value="data_collection">
                 <param name="source" type="data_collection" format="mzml" label="Data collection of *.mzml" >
                     <validator type="empty_field" />
