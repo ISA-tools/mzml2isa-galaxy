@@ -217,7 +217,7 @@
                 </param>
             </when>
             <when value="tar_file">
-		<param format="tar" name="tar_input" type="data" label="TAR file from your History containing *.mzml files"/>
+		<param name="source" type="data" format="tar" label="TAR file from your History containing *.mzml files"/>
 	    </when>
             <when value="data_collection">
                 <param name="source" type="data_collection" format="mzml" label="Data collection of *.mzml" >
