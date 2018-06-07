@@ -21,10 +21,10 @@ def ontology_lookup(name, table):
     elif table=="status":
         tablepth = os.path.join(path, 'pub_status.loc')
     else:
-        print "Table not recognised"
+        print("Table not recognised")
         return ""
 
-    with open(tablepth, "rb") as csvfile:
+    with open(tablepth, "r") as csvfile:
         reader = csv.reader(csvfile, delimiter='\t')
         ont_dict = dict((k, v) for v, k in reader)
         try:
@@ -216,7 +216,6 @@ def main():
             inp = args.inputzip
         else:
             inp = args.folder
-        
         full_parse(inp, args.out_dir, args.study_title, usermeta=USERMETA, split=True, merge=False, verbose=True, multip=False)
 
     except ImportError:
