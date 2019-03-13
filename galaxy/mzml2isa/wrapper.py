@@ -21,10 +21,10 @@ def ontology_lookup(name, table):
     elif table=="status":
         tablepth = os.path.join(path, 'pub_status.loc')
     else:
-        print "Table not recognised"
+        print("Table not recognised")
         return ""
 
-    with open(tablepth, "rb") as csvfile:
+    with open(tablepth, "r") as csvfile:
         reader = csv.reader(csvfile, delimiter='\t')
         ont_dict = dict((k, v) for v, k in reader)
         try:
@@ -38,13 +38,14 @@ def main():
 
     p = argparse.ArgumentParser(prog='PROG',
                                 formatter_class=argparse.RawDescriptionHelpFormatter,
-                                description='''DI-MS processing for DMA''',
+                                description='''mzml2isa-galaxy wrapper''',
                                 epilog=textwrap.dedent('''\
                             -------------------------------------------------------------------------
                             '''))
 
 
-    p.add_argument('-inputzip', dest='inputzip', required=True)
+    p.add_argument('-inputzip', dest='inputzip', required=False, help="Provide a Zip or TAR file")
+    p.add_argument('-folder', dest='folder', required=False)
     p.add_argument('-out_dir', dest='out_dir', required=True)
     p.add_argument('-html_file', dest='html_file', required=True)
     p.add_argument('-study_title', dest='study_title', required=True)
@@ -211,15 +212,22 @@ def main():
         from mzml2isa.parsing import full_parse
         # import progressbar as pb
         # parse the files
-        full_parse(args.inputzip, args.out_dir, args.study_title, usermeta=USERMETA, split=True, merge=False, verbose=True,
-                   multip=False)
+        if args.inputzip:
+            inp = args.inputzip
+        else:
+            inp = args.folder
+        full_parse(inp, args.out_dir, args.study_title, usermeta=USERMETA, split=True, merge=False, verbose=True, multip=False)
 
     except ImportError:
         import tempfile
         temp = tempfile.NamedTemporaryFile()
         temp.write(json.dumps(USERMETA))
         temp.seek(0)
-        os.system("mzml2isa -i %s -o %s -s %s -m %s" % (args.inputzip, args.out_dir, args.study_title, temp.name))
+        if args.inputzip:
+            inp = args.inputzip
+        else:
+            inp = args.folder
+        os.system("mzml2isa -i %s -o %s -s %s -m %s" % (inp, args.out_dir, args.study_title, temp.name))
         temp.close()
 
     # The html output is now redundant, the output will be hidden to end user. Have left here in case we need to

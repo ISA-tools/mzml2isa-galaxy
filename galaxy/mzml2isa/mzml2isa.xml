@@ -5,17 +5,18 @@
         <import>mzml2isa_macros.xml</import>
     </macros>
 
-    <code file="ontology_search.py" />
-
     <requirements>
         <requirement type="package" version="0.4.24">mzml2isa</requirement>
     </requirements>
+
+    <code file="ontology_search.py" />
 
     <stdio>
         <exit_code range="1:" />
     </stdio>
     
-    <command interpreter="python"><![CDATA[
+    <command detect_errors="exit_code">
+    <![CDATA[
     #set $s_submission_date = ""
     #set $s_release_date = ""
     #set $s_description = ""
@@ -123,8 +124,29 @@
         #set $organism_part_iri = $exp_meta.organism_part_iri
     #end if
 
+    #if $input.format == "data_collection"
+        mkdir "temp"
+        &&
+        cd "temp"
+        &&
+        #for $fn in $input.source
+            #if str( $fn ).endswith(".dat")
+                ln -s '$fn' '$fn.name'
+                &&
+            #end if
+        #end for
+        cd ..
+        &&
+    #end if
 
-    wrapper.py -inputzip "$inputzip"
+    python $__tool_directory__/wrapper.py
+    #if $input.format == "zip_file"
+         -inputzip "$input.source"
+    #else if $input.format == "tar_file"
+         -inputzip "$input.source"
+    #else if $input.format == "data_collection"
+         -folder "temp"
+    #end if
                -jsontxt "$jsontxt"
                -html_file "$html_file"
                -out_dir .
@@ -171,18 +193,41 @@
                --organism_variant_iri "$organism_variant_iri"
                --organism_part_text "$organism_part_text"
                --organism_part_ref "$organism_part_ref"
-	           --organism_part_iri "$organism_part_iri";
+	       --organism_part_iri "$organism_part_iri";
 
 	       ln -s ./"$name_of_study" study_dir;
 
 	       cd study_dir;
 	       zip isa.zip i_* a_* s_* && mv isa.zip "$ISA_zip";
-	       ]]>
+    ]]>
     </command>
 
     <inputs>
         <param name="name_of_study" type="text" label="Name study" help="This should not contain any spaces as the name will be used a prefix for ISA-tab file names" />
-        <param format="zip" name="inputzip" type="data" label="mzML zip file"  help="A zipped folder of mzML files"/>
+
+        <conditional name="input">
+            <param name="format" type="select" label="Choose the source for the dataset" >
+                <option value="zip_file" selected="true">Zip file from your History containing a folder of *.mzML files</option>
+                <option value="tar_file">TAR file from your history containing a folder of *.mzML files</option>
+                <option value="data_collection">Data collection (*.mzML files)</option>
+            </param>
+            <when value="zip_file">
+                <param name="source" type="data" format="zip" label="Zip file from your History containing *.mzml files">
+                    <validator type="empty_field" />
+                </param>
+            </when>
+            <when value="tar_file">
+		<param name="source" type="data" format="tar" label="TAR file from your History containing *.mzml files"/>
+	    </when>
+            <when value="data_collection">
+                <param name="source" type="data_collection" format="mzml" label="Data collection of *.mzml" >
+                    <validator type="empty_field" />
+                </param>
+            </when>
+        </conditional>
+
+        <!--<param format="zip" name="inputzip" type="data" label="mzML zip file"  help="A zipped folder of mzML files"/>-->
+
         <param optional="true" format="txt" name="jsontxt" type="data" label="Additional user Metadata in json"  help="A user can add additional metadata directory through a json file"/>
         <expand macro="studymacro"/>
         <expand macro="investmacro"/>
@@ -211,13 +256,14 @@ this would require changing the out_dir for wrapper.py back to $html_file.extra_
 	<collection type="list" label="S Files" name="s_files">
 		<discover_datasets pattern="(?P&lt;designation&gt;s_.+)\.txt" directory="study_dir" format="tabular"/>
 	</collection>
-	<data name="i_file" format="tabular" label="I File" from_work_dir="study_dir/i_Investigation.txt" visible="true"/>
+	<data name="i_file" format="tabular" label="I File" from_work_dir="study_dir/i_Investigation.txt"/>
     </outputs>
 
     <tests>
         <test>
             <param name="name_of_study" value="test" />
-            <param name="inputzip" value="metabolomics_study.zip" ftype="zip" />
+            <param name="input|format" value="zip_file" />
+            <param name="input|source" value="metabolomics_study.zip" ftype="zip" />
             <output name="html_file" value="metabolomics_study/test/index.html" />
             <output name="i_file" value="metabolomics_study/test/i_Investigation.txt" />
             <output_collection name="a_files" type="list" count="1">
@@ -229,6 +275,36 @@ this would require changing the out_dir for wrapper.py back to $html_file.extra_
             </output_collection>
             <output_collection name="s_files" type="list" count="1">
                 <element name="s_test">
+                    <assert_contents>
+                        <has_n_columns n="12" />
+                    </assert_contents>
+                </element>
+            </output_collection>
+        </test>
+        <test>
+            <param name="name_of_study" value="test_collection" />
+            <param name="input|format" value="data_collection" />
+            <param name="input|source" >
+                <collection type="list">
+                    <element name="1_samp" value="1_samp.mzML" />
+                    <element name="2_samp" value="2_samp.mzML" />
+                    <element name="3_samp" value="3_samp.mzML" />
+                    <element name="4_samp" value="4_samp.mzML" />
+                    <element name="5_samp" value="5_samp.mzML" />
+                    <element name="6_samp" value="6_samp.mzML" />
+                </collection>
+            </param >
+            <output name="html_file" value="metabolomics_study/test_collection/index.html" />
+            <output name="i_file" value="metabolomics_study/test_collection/i_Investigation.txt" />
+            <output_collection name="a_files" type="list" count="1">
+                <element name="a_test_collection_metabolite_profiling_mass_spectrometry">
+                    <assert_contents>
+                        <has_n_columns n="77" />
+                    </assert_contents>
+                </element>
+            </output_collection>
+            <output_collection name="s_files" type="list" count="1">
+                <element name="s_test_collection">
                     <assert_contents>
                         <has_n_columns n="12" />
                     </assert_contents>
