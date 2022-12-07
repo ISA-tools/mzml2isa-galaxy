@@ -53,7 +53,7 @@
     <inputs>
         <param name="name_of_study" type="text" label="Name study" help="This should not contain any spaces as the name will be used a prefix for ISA-tab file names" />
         <conditional name="input">
-            <param name="format" type="select" label="Choose the source for the dataset" >
+            <param name="format" type="select" label="Choose the source for the dataset (zip, tar or data collection)" >
                 <option value="zip_file" selected="true">Zip file from your History containing a folder of *.mzML files</option>
                 <option value="tar_file">TAR file from your history containing a folder of *.mzML files</option>
                 <option value="data_collection">Data collection (*.mzML files)</option>
