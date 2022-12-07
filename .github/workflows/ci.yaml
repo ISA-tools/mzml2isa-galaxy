@@ -41,8 +41,7 @@ jobs:
       run: pip install planemo
     - name: Fake a planemo run to update cache
       run: |
-        touch tool.xml
-        PIP_QUIET=1 planemo test --galaxy_python_version ${{ matrix.python-version }} --no_conda_auto_init --galaxy_branch $GALAXY_RELEASE
+        PIP_QUIET=1 planemo test .github/workflows/tool.xml --galaxy_python_version ${{ matrix.python-version }} --no_conda_auto_init --galaxy_branch $GALAXY_RELEASE
   test:
     name: Test tools
     # This job runs on Linux
