@@ -34,11 +34,15 @@ GNU General Public License v3 (GPLv3)
 
 Changes
 -------------------------
+v1.1.1+galaxy1
+  - Fix dependency issues 
+
 v1.1.1+galaxy0
   - Version bump to mzml2isa 1.1.1
   - Galaxy tool python3 compatible (https://github.com/ISA-tools/mzml2isa-galaxy/issues/10)
   - Removed functionality to add additional usermeta data for ISA directly via individual Galaxy Tool inputs (deemed unpractical - and is suited for a separate tool). A JSON file can still be used for this functionality  
-  - Highlight tar option more clearly (https://github.com/ISA-tools/mzml2isa-galaxy/issues/6)
+  - Highlight tar option more clearly (https://github.com/ISA-tools/mzml2isa-galaxy/pull/5)
+  - Bug fixed for json handling (https://github.com/ISA-tools/mzml2isa-galaxy/issues/6)
   - CI/CD updates
 
 v0.1.0
