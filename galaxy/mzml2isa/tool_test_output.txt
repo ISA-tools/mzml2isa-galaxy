@@ -1,0 +1,4 @@
+All 2 test(s) executed passed.
+
+mzml2isa (Test #1): success
+mzml2isa (Test #2): success
