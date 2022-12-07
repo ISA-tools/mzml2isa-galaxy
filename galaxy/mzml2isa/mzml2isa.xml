@@ -141,9 +141,9 @@
 **Overview**
  A program to automatically generate ISA-Tab metadata files from metabolomics raw XML (mzML and imzML) data files.
 
- Additional meta-information not found within the mzML file can be added either through a JSON file.
+ Additional meta-information not found within the mzML file can be added through a JSON file.
  However, it is recommended that the mzML2ISA tool is used to create a semi-completed ISA-Tab file structure
- that is further annotated using ISAcreator https://github.com/ISA-tools/ISAcreator
+ that is further annotated using ISAcreator https://github.com/ISA-tools/ISAcreator or via the ISA-API.
 
 .. image::mzml2isa.png
     ]]></help>
