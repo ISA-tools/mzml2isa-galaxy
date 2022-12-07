@@ -1,5 +1,5 @@
 name: mzml2isa
-owner: computational-metabolomics
+owner: tomnl
 description: Contains a tool dependency definition that downloads and extract mzml2isa.
 homepage_url: https://github.com/ISA-tools/mzml2isa
 long_description: mzml2isa is a Python program that can be used to generate an ISA-Tab structure out of mzML files, providing the backbone of a study which can then be edited with an ISA editing tool (see MetaboLights pre-packaged ISA Creator - http://www.ebi.ac.uk/metabolights/)
@@ -7,9 +7,3 @@ remote_repository_url: https://github.com/ISA-tools/mzml2isa
 type: unrestricted
 categories:
   - "Metabolomics"
-include:
-  - mzml2isa.xml
-  - static/images/**
-  - test-data/**
-  - README.rst
-
