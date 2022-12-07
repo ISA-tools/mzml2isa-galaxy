@@ -1,8 +1,7 @@
 mzml2isa for galaxy
 ===============
 
-[![install with bioconda](https://img.shields.io/badge/install%20with-bioconda-brightgreen.svg?style=flat-square)](http://bioconda.github.io/recipes/mzml2isa/README.html) 
-![build](https://github.com/github/docs/actions/workflows/main.yml/badge.svg?branch=master)
+[![install with bioconda](https://img.shields.io/badge/install%20with-bioconda-brightgreen.svg?style=flat-square)](http://bioconda.github.io/recipes/mzml2isa/README.html) [![Galaxy Tool Linting and Tests for push and PR](https://github.com/ISA-tools/mzml2isa-galaxy/actions/workflows/pr.yaml/badge.svg?branch=master)](https://github.com/ISA-tools/mzml2isa-galaxy/actions/workflows/pr.yaml)
 
 This is a Galaxy wrapper for the mzml2isa python package tool.
 
