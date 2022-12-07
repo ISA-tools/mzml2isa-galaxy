@@ -35,7 +35,7 @@ GNU General Public License v3 (GPLv3)
 Changes
 -------------------------
 v1.1.1+galaxy1
-  - Fix dependency issues 
+  - Fix dependency issues - specifically required "zip" 
 
 v1.1.1+galaxy0
   - Version bump to mzml2isa 1.1.1
