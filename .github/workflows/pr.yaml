@@ -60,7 +60,7 @@ jobs:
     - name: Fake a Planemo run to update cache
       if: steps.cache-pip.outputs.cache-hit != 'true' || steps.cache-planemo.outputs.cache-hit != 'true'
       run: |
-        PIP_QUIET=1 planemo test test .github/workflows/tool.xml --galaxy_python_version ${{ matrix.python-version }} --no_conda_auto_init --galaxy_source $GALAXY_REPO --galaxy_branch $GALAXY_RELEASE
+        PIP_QUIET=1 planemo test .github/workflows/tool.xml --galaxy_python_version ${{ matrix.python-version }} --no_conda_auto_init --galaxy_source $GALAXY_REPO --galaxy_branch $GALAXY_RELEASE
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0
