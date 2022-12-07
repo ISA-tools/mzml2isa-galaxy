@@ -42,7 +42,7 @@ jobs:
     - name: Fake a planemo run to update cache
       run: |
         echo "<tool id="test" name="test" >  <command detect_errors="exit_code">echo 'test' > "$test_out"</command><outputs> <data name="test_out" format="text" label="test_out"/> </outputs> <tests> <test>   <output name="test_out"  > <assert_contents> <has_text text="test" />  </assert_contents> </output> </test> </tests> </tool>" >> tool.xml
-        PIP_QUIET=1 planemo test .github/workflows/tool.xml --galaxy_python_version ${{ matrix.python-version }} --no_conda_auto_init --galaxy_branch $GALAXY_RELEASE
+        PIP_QUIET=1 planemo test tool.xml --galaxy_python_version ${{ matrix.python-version }} --no_conda_auto_init --galaxy_branch $GALAXY_RELEASE
   test:
     name: Test tools
     # This job runs on Linux
